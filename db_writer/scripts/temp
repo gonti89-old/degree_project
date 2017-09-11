@@ -1,0 +1,7 @@
+
+additional_info = {"file_id": 10,
+                   "country": "Croatia", 
+                   "date":"2016-08-10", 
+                   "api":"onApi", 
+                   "periodType":"day"}
+settings = {"instance": "prod"}

@@ -1,0 +1,10 @@
+{% extends "general_reports_site.html" %}
+
+{% block content %}
+     <div class="jumbotron">
+      <div class="container">
+        <h1>ERROR</h1>
+        <p>{{ url_params.get('error_message')}}</p>
+      </div>
+    </div>
+{% endblock %}

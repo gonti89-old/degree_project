@@ -1,0 +1,11 @@
+body {
+  min-height: 2000px;
+  padding-top: 50px;
+ }
+
+#container {
+	min-width: 310px;
+	max-width: 800px;
+	height: 400px;
+	margin: 0 auto
+}
