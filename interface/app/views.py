@@ -2,38 +2,56 @@ import forms
 import tools
 from app import app
 from flask import flash
+from flask import session
 from flask import redirect
 from flask import render_template
 from flask import request
 from flask import url_for
 from read_data_from_db import apiReports
 
+def update_session():
+    session['data'] = request.form.to_dict()
 
-def initilize_forms_variables():
+
+def general_report_site(form, statuses, plan_id):
+    update_session()
+    return render_template('general_reports_site.html',
+                           title='test',
+                           form=form,
+                           statuses=statuses,
+                           plan_id=plan_id)
+
+def read_session_form():
+    dt=tools.cast_to_date(session['data']['dt'])
+    form = forms.navigationForm(instances=session['data']['instances'],
+                                country=session['data']['country'],
+                                periodType=session['data']['periodType'],
+                                dt=dt)
+    return form
+
+
+
+def initilize_forms_variables(data):
     form = forms.navigationForm()
+
     form.instances.choices = tools.get_instances()
-    form.periodType.choices  =  tools.get_period_types()
+    form.periodType.choices = tools.get_period_types()
     form.country.choices = tools.get_countries()
     return form
 
-@app.route('/', methods = ['POST', 'GET'])
+@app.route('/', methods = ['GET', 'POST'])
 def instance_type():
+    session['data'] = request.form.to_dict()
 
-    form = initilize_forms_variables()
-
+    form = initilize_forms_variables(request.form.to_dict())
+    reports_status = tools.get_reports_statuses()
+    plan_id = 1
     if form.validate_on_submit():
-        form_data = list()
-        for filled_field in form:
-            form_data.append(filled_field)
-            if filled_field.short_name != 'csrf_token':
-                flash("chosen '%s' : '%s'" % (filled_field.label.text, filled_field.data))
-        return redirect(url_for('reports',
-                                instance=form.instances.data,
-                                country=form.country.data,
-                                period=form.periodType.data,
-                                report_date=form.dt.data,
-                                form=form,
-                                plan_id=1))
+        return render_template('general_reports_site.html',
+                               title='test',
+                               form=form,
+                               statuses=reports_status,
+                               plan_id=plan_id)
 
     return render_template('base.html',
                            title='inital site',
@@ -41,36 +59,38 @@ def instance_type():
 
 @app.route('/error', methods=['POST', 'GET'])
 def error_site():
-    form = initilize_forms_variables()
+    form = read_session_form()
     reports_status = tools.get_reports_statuses()
+    plan_id = 1
     if form.validate_on_submit():
-        for filled_field in form:
-            if filled_field.short_name != 'csrf_token':
-                flash("chosen '%s' : '%s'" % (filled_field.label.text, filled_field.data))
-        return redirect(url_for('reports',
-                                instance=form.instances.data,
-                                country=form.country.data,
-                                period=form.periodType.data,
-                                report_date=form.dt.data,
-                                form=form))
+        return render_template('general_reports_site.html',
+                                title='test',
+                                form=form,
+                                statuses=reports_status,
+                                plan_id=plan_id)
 
     return render_template('error_site.html',
                            title='error',
                            form=form,
                            statuses=reports_status,
-                           url_params=request.args,
+                           plan_id=plan_id
                            )
 
 
 @app.route('/second_report', methods=['POST', 'GET'])
 def second_report():
-    form = initilize_forms_variables()
+
+    form = read_session_form()
+
     reports_status = tools.get_reports_statuses()
+    plan_id = 1
+    if form.validate_on_submit():
+       return general_report_site(form, reports_status, plan_id)
 
     country = request.args.get('country')
-    current_date = request.args.get('report_date')
-    period_type = request.args.get('period')
-    instance_type= request.args.get('instance')
+    current_date = request.args.get('dt')
+    period_type = request.args.get('periodType')
+    instance_type= request.args.get('instances')
     plan_id = int(request.args.get('plan_id'))
     report_api = apiReports(country=country,
                             report_name="basicStatsTrend",
@@ -78,18 +98,19 @@ def second_report():
                             period_type=period_type,
                             instance_type=instance_type,
                             plan_id=plan_id)
-    for item in report_api.__dict__:
-        print item
     try:
         data = report_api.create_report()
 
     except ValueError as e:
-        return redirect(url_for('error_site',
-                                title='error',
-                                form=form,
-                                statuses=reports_status,
-                                url_params=request.args,
-                                error_message=e))
+
+        return render_template('error_site.html',
+                               title='error',
+                               form=form,
+                               statuses=reports_status,
+                               url_params=request.args,
+                               error_message=e,
+                               plan_id=plan_id
+                               )
     platforms = report_api.find_plans_id('on')
 
     chartID = data['title']['text']
@@ -152,28 +173,3 @@ def first_report():
                            xAxis=xAxis,
                            yAxis=yAxis
                            )
-
-
-@app.route('/reports', methods=['POST', 'GET'])
-def reports():
-    reports_status = tools.get_reports_statuses()
-    form = initilize_forms_variables()
-    plan_id = request.args.get('plan_id')
-
-    if form.validate_on_submit():
-        for filled_field in form:
-            if filled_field.short_name != 'csrf_token':
-                flash("chosen '%s' : '%s'" % (filled_field.label.text, filled_field.data))
-        return redirect(url_for('reports',
-                                instance=form.instances.data,
-                                country=form.country.data,
-                                period=form.periodType.data,
-                                report_date=form.dt.data,
-                                form=form,
-                                plan_id=plan_id))
-    else:
-        return render_template('general_reports_site.html',
-                               title='test',
-                               form=form,
-                               statuses=reports_status,
-                               url_params=request.args)
