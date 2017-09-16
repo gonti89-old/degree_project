@@ -1,0 +1,11 @@
+- funkcje raportów db reader  - na początek jako zaślepki
+- widoki w interface dla nowych raportów
+- lista raportów z konfiguracji - dbreader
+- czytanie default plan_id z konfiguracji
+- przygotowanie danych randomowych  do wrzucenia do bazy - np http://www.freedatagenerator.com/csv-data-generator
+- fakowe dane do repo
+- autoamtyczne instalowanie i stawianie całego środowiska
+  - virtual env (jak ustawić dynamicznie link do python z wirtual enva)
+  - wrzucanie danych do bazy
+  - odpalanie bazy
+  - uruchamianie interface
