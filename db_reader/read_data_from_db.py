@@ -115,7 +115,7 @@ class apiReports(object):
         return data_to_return
 
 if __name__ == '__main__':
-    reports = apiReports(country="Poland",
+    reports = apiReports(country="Croatia",
                          report_name="basicStatsTrend",
                          date="2016-08-31",
                          period_type="day",
