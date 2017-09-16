@@ -2,3 +2,4 @@ venv/
 .idea
 old-test
 data
+*.pyc
