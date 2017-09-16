@@ -47,11 +47,7 @@ def instance_type():
     reports_status = tools.get_reports_statuses()
     plan_id = 1
     if form.validate_on_submit():
-        return render_template('general_reports_site.html',
-                               title='test',
-                               form=form,
-                               statuses=reports_status,
-                               plan_id=plan_id)
+        return general_report_site(form, reports_status, plan_id)
 
     return render_template('base.html',
                            title='inital site',
@@ -63,11 +59,7 @@ def error_site():
     reports_status = tools.get_reports_statuses()
     plan_id = 1
     if form.validate_on_submit():
-        return render_template('general_reports_site.html',
-                                title='test',
-                                form=form,
-                                statuses=reports_status,
-                                plan_id=plan_id)
+        return general_report_site(form, reports_status, plan_id)
 
     return render_template('error_site.html',
                            title='error',
@@ -90,7 +82,7 @@ def second_report():
     country = request.args.get('country')
     current_date = request.args.get('dt')
     period_type = request.args.get('periodType')
-    instance_type= request.args.get('instances')
+    instance_type = request.args.get('instances')
     plan_id = int(request.args.get('plan_id'))
     report_api = apiReports(country=country,
                             report_name="basicStatsTrend",
@@ -121,7 +113,9 @@ def second_report():
     yAxis = {'title': {'text': 'testlabel'}}
 
     return render_template('first_report.html',
+                           name='second_report',
                            form=form,
+                           plan_id=plan_id,
                            statuses=reports_status,
                            platforms=platforms,
                            url_params=request.args,
@@ -136,7 +130,7 @@ def second_report():
 
 @app.route('/first_report', methods=['POST', 'GET'])
 def first_report():
-    form = initilize_forms_variables()
+    form = read_session_form()
     reports_status = tools.get_reports_statuses()
     platforms = tools.get_platforms()
 
@@ -151,9 +145,6 @@ def first_report():
     yAxis = {"title": {"text": 'yAxis Label'}}
 
     if form.validate_on_submit():
-        for filled_field in form:
-            if filled_field.short_name != 'csrf_token':
-                flash("chosen '%s' : '%s'" % (filled_field.label.text, filled_field.data))
         return redirect(url_for('reports',
                                 instance=form.instances.data,
                                 country=form.country.data,
@@ -162,6 +153,7 @@ def first_report():
                                 form=form))
 
     return render_template('first_report.html',
+                           name='first_report',
                            form=form,
                            statuses=reports_status,
                            platforms=platforms,
