@@ -8,10 +8,10 @@
                 <a role=" button" class="btn btn-secondary button-group-item active btn-lg"
                     name="platform_name"
                 href={{ url_for('second_report',
-                                 instance=url_params.get('instance'),
+                                 instances=url_params.get('instances'),
                                  country=url_params.get('country'),
-                                 period=url_params.get('period'),
-                                 report_date=url_params.get('report_date'),
+                                 periodType=url_params.get('periodType'),
+                                 dt=url_params.get('dt'),
                                  plan_id= platform )}} >
                     {{ platform }}
                 </a>

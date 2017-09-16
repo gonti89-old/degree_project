@@ -9,19 +9,21 @@
 {% endblock %}
 
 {% block sidebar %}
+
     <ul class="list-group nav-pills nav-stacked col-md-2 col-sm-4 ">
     {% for report_name, status in statuses %}
         <a href={{ url_for('second_report',
-                           instance=url_params.get('instance'),
-                           country=url_params.get('country'),
-                           period=url_params.get('period'),
-                           report_date=url_params.get('report_date'),
-                           plan_id = url_params.get('plan_id') )}}
+                           instances=form.instances.data ,
+                           country=form.country.data ,
+                           periodType=form.periodType.data,
+                           dt=form.dt.data,
+                           plan_id = plan_id )}}
                  class="btn btn-primary list-group-item list-group-item-danger">
             {{ report_name }}
         </a>
     {% endfor %}
     </ul>
+
 
 {%endblock%}
 
