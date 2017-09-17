@@ -1,4 +1,3 @@
-#!/home/kgontarz/prywatne/projekt_dyplomowy/venv/bin/python
 import argparse
 import ConfigParser
 import datetime
