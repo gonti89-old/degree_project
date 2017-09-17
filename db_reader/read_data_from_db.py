@@ -103,6 +103,7 @@ class apiReports(object):
 
         category_stat_name = self.current_report_conf['category']
         xAxis = {'categories': [str(x.strftime("%Y-%m-%d")) for x in data[category_stat_name]]}
+        yAxis = {}
         title = {'text': self.current_report_conf['chart_name']}
         chart_opt = {'type': self.current_report_conf['chart_type']}
 
@@ -111,7 +112,11 @@ class apiReports(object):
             if stat != category_stat_name:
                 series.append({ 'name':stat, 'data':data[stat]})
 
-        data_to_return = {'xAxis':xAxis, 'title':title, 'series': series, 'chart':chart_opt}
+        data_to_return = {'xAxis': xAxis,
+                          'yAxis': yAxis,
+                          'title': title,
+                          'series': series,
+                          'chart': chart_opt}
         return data_to_return
 
 if __name__ == '__main__':
