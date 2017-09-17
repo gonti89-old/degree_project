@@ -1,4 +1,3 @@
-#!/home/kgontarz/prywatne/projekt_dyplomowy/venv/bin/python
 import argparse
 import ConfigParser
 import datetime
@@ -6,7 +5,6 @@ import os
 import pymongo
 import sys
 import scripts.tools as tools
-#from scripts.tools import is_files_exists, get_gem_id, insert_many
 from scripts.settings import settings
 
 
