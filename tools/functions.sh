@@ -12,7 +12,19 @@ for day in {01..31};
 }
 
 function configure_virtaul_enviroment(){
-pip install -r requirements.txt
+if [ ! -e ~/.myvirtualenv/ ]
+    then
+        virtualenv venv
+        pip install -r requirements.txt
 
+    fi
+source venv/bin/activate
 }
 
+function write_fake_data_to_db(){
+for day in {01..31}; 
+    do python db_writer/write_data_to_db.py \
+        --country Poland \
+        --date 2017-08-$day \
+        --periodType day; done
+}
