@@ -1,0 +1,6 @@
+column_name	is_random	range	type
+node_id	False	1:100:1	int
+plan_id	False	1:4:1	int
+stat4	True	0:1	float
+stat5	True	0:1	float
+stat6	True	0:1	float
