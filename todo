@@ -1,5 +1,14 @@
+- lista raportów z configu
+- czytanie nazwy raporty z url jako zmienna tylko do jednej metody w widokach 
 - funkcje raportów db reader  - na początek jako zaślepki
 - widoki w interface dla nowych raportów
+   - line chart - gotowy
+   - stacked area chart (target groups)
+   - bar with negative stack (strucutral data vs target groups)
+   - basic column 
+   - pie chart (devices usage)
+   - scatter plot (difference to prev)
+   - heatmap - probablity function
 - lista raportów z konfiguracji - dbreader
 - czytanie default plan_id z konfiguracji
 - przygotowanie danych randomowych  do wrzucenia do bazy - np http://www.freedatagenerator.com/csv-data-generator
