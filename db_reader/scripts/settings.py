@@ -47,7 +47,15 @@ reports_conf= {
         },
         'function': 'basicStatsTrend',
         'category': 'date',
-        'chart_name': 'basicStatsTrendUniverses',
+        'chart_name': 'basicStatsTrend',
         'chart_type': 'line'
+    },
+    'targetGroupTrend':{
+        'collections':{},
+        'function': 'targetGroupTrend',
+        'category': 'date',
+        'chart_name': 'Target Groups',
+        'chart_type': 'area'
+
     }
 }
