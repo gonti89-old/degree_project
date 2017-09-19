@@ -34,7 +34,12 @@ country_conf = {
 
 
 reports_conf= {
-    'basicStatsTrend': {
+    'empty':{
+        'isVisible': False,
+        'collections':{}
+    },
+    'basicStatsTrend':{
+        'isVisible': True,
         'collections':{
             'file1':{
                 'stats': {
@@ -49,17 +54,38 @@ reports_conf= {
                 }
             }
         },
-        'function': 'basicStatsTrend',
+        'function': 'general',
         'category': 'date',
         'chart_name': 'basicStatsTrend',
-        'chart_type': 'line'
+        'chart_type': 'line',
+        'plot_options': {}
     },
-    'targetGroupTrend':{
-        'collections':{},
-        'function': 'targetGroupTrend',
+    'summaryTrend':{
+        'isVisible': True,
+        'collections':{
+            'file2':{
+                'stats':{
+                    'stat4': True,
+                    'stat5': True,
+                    'stat6': True,
+                    'date': True
+                },
+                'filters':{
+                    'node_id': 'node_id',
+                    'plan_id': 'plan_id'
+                }
+            }
+        },
+        'function': 'general',
         'category': 'date',
-        'chart_name': 'Target Groups',
-        'chart_type': 'area'
+        'chart_name': 'TargetGroups',
+        'chart_type': 'area',
+        'plot_options':{
+            'area':{
+                'stacking':'normal'
+            }
+
+        }
 
     }
 }
