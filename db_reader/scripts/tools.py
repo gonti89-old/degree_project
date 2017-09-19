@@ -1,6 +1,6 @@
 def prepare_query_args(data, country, period_type):
     stats_config = data['stats']
-    filters = data['filters']
+    filters = data['filters'].copy()
     dates = {"date": {"$gte": data['begin_date'], "$lte": data['end_date']}}
     filters.update(dates)
     filters.update({'country': country})
