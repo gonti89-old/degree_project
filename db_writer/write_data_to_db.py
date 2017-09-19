@@ -18,6 +18,7 @@ def init_args():
                         help="proper format is YYYY-MM-DD")
     parser.add_argument("--periodType", required=True)
     parser.add_argument("--gem_id", default=None)
+    parser.add_argument("--override", action='store_true')
     return parser
 
 if __name__ == '__main__':
@@ -33,14 +34,14 @@ if __name__ == '__main__':
 
     gem_id = arguments.gem_id
 
-    add_info = {"gem_id": gem_id, "country": arguments.country, "date": arguments.date,
-                "period_type":arguments.periodType}
+    main_key = {"gem_id": gem_id, "country": arguments.country, "date": arguments.date,
+                "period_type": arguments.periodType}
     files_list = tools.get_full_paths(current_path, settings['files_to_db_update'])
     if tools.is_files_exists(files_list):
         print "all files exists"
         for file_path in files_list:
             file_name = os.path.basename(file_path)
-            data_to_insert = tools.csv_to_list_of_dict(file_path, add_info)
+            data_to_insert = tools.csv_to_list_of_dict(file_path, main_key)
+            tools.insert_many(file_name, data_to_insert, instance_type, override=arguments.override, key=main_key)
             print "data inserted", file_name
-            tools.insert_many(file_name, data_to_insert, instance_type)
 
