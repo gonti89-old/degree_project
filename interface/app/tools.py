@@ -13,12 +13,6 @@ def get_countries():
                  ['Poland', 'Croatia', 'Ukraine', 'Turkey']]
     return countries
 
-def get_reports_statuses():
-    statuses = [(report_name, "OK") for report_name in
-                ['integrity_report', 'paren_child_report', 'gem_vs_univ',
-                 'weighitng_report', 'univ_vs_traffic', 'integrity']]
-    return statuses
-
 def get_platforms():
     platforms = [(x,x) for x in [1, 3, 5]]
     return platforms
