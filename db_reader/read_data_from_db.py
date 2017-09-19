@@ -32,6 +32,16 @@ class apiReports(object):
         self.collections = self.current_report_conf['collections']
         self.date_args = {'begin_date': self.begin_date, 'end_date': self.end_date}
 
+    def get_default_plan_id(self):
+        return settings.get('default_plan_id')
+
+    def get_reports_statuses(self):
+        visible_reports = list()
+        for name,data in reports_conf.iteritems():
+            if data['isVisible']:
+                visible_reports.append(name)
+        statuses = [(n, "list-group-item-success") for n in visible_reports ]
+        return statuses
 
     def set_db_connection(self):
         self.client = pymongo.MongoClient()
@@ -82,7 +92,6 @@ class apiReports(object):
                 data_to_process.append(document)
 
         self.end_db_connection()
-
         function_name = self.current_report_conf["function"]
         data = eval('tools.'+function_name+'(data_to_process)')
         if not data:
@@ -100,6 +109,7 @@ class apiReports(object):
         yAxis = {}
         title = {'text': self.current_report_conf['chart_name']}
         chart_opt = {'type': self.current_report_conf['chart_type']}
+        plot_opt = self.current_report_conf['plot_options']
 
         series = list()
         for stat in data:
@@ -110,7 +120,8 @@ class apiReports(object):
                           'yAxis': yAxis,
                           'title': title,
                           'series': series,
-                          'chart': chart_opt}
+                          'chart': chart_opt,
+                          'plot_options': plot_opt}
         return data_to_return
 
 if __name__ == '__main__':
