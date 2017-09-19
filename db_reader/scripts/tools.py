@@ -10,7 +10,7 @@ def prepare_query_args(data, country, period_type):
 
 
 
-def basicStatsTrend(data):
+def general(data):
     final_data = dict()
     for item in data:
         for stat, val in item.iteritems():
