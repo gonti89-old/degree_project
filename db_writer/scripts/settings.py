@@ -1,4 +1,6 @@
 on_api =['file1', 'file2']
+alternative_keys = {'file1':['plan_id', 'node_id'],
+                    'file2':['plan_id', 'node_id']}
 gem_api = []
 instance = "prod"
 all_files = on_api + gem_api
