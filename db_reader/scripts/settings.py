@@ -5,10 +5,10 @@ settings = {
     'default_plan_id': '1',
     'plans_type':{
         'on':{
-            'collection_name': 'universes.www'
+            'collection_name': 'file1'
         },
         'gem':{
-            'collection_name': 'gem_stats'
+            'collection_name': ''
         }
     }
 }
@@ -23,8 +23,12 @@ prevPeriods = {
 
 country_conf = {
     'Croatia':{
-        'study_id': 250818,
-        'default_plan_id': 1
+        'node_id': 1,
+        'plan_id': 1
+    },
+    'Poland':{
+        'node_id': 1,
+        'plan_id': 1
     }
 }
 
@@ -32,16 +36,16 @@ country_conf = {
 reports_conf= {
     'basicStatsTrend': {
         'collections':{
-            'universes.raw':{
+            'file1':{
                 'stats': {
-                    'Events': True,
-                    'Sonars': True,
-                    'Time': True,
+                    'stat1': True,
+                    'stat2': True,
+                    'stat3': True,
                     'date':True
                 },
                 'filters': {
-                    'NodeID': 'study_id',
-                    'PlanID': 'default_plan_id'
+                    'node_id': 'node_id',
+                    'plan_id': 'plan_id'
                 }
             }
         },
