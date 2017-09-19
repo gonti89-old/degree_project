@@ -12,13 +12,12 @@ for day in {01..31};
 }
 
 function configure_virtaul_enviroment(){
-if [ ! -e ~/.myvirtualenv/ ]
+if [ ! -e venv ]
     then
         virtualenv venv
         pip install -r requirements.txt
-
+	. venv/bin/activate
     fi
-source venv/bin/activate
 }
 
 function write_fake_data_to_db(){
