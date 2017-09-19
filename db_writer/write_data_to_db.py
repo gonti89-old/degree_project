@@ -6,7 +6,7 @@ import pymongo
 import sys
 import scripts.tools as tools
 from scripts.settings import settings
-
+from scripts.settings import alternative_keys
 
 
 api_files_root_path = '/home/kgontarz/prywatne/projekt_dyplomowy/data/test_data/'
@@ -17,6 +17,7 @@ def init_args():
     parser.add_argument("--date", required=True, type=lambda d: datetime.datetime.strptime(d, '%Y-%m-%d'),
                         help="proper format is YYYY-MM-DD")
     parser.add_argument("--periodType", required=True)
+    parser.add_argument("--gem_id", default=None)
     return parser
 
 if __name__ == '__main__':
@@ -30,7 +31,7 @@ if __name__ == '__main__':
     current_path = os.path.join(api_files_root_path, instance_type,
                                 arguments.country, arguments.periodType, year, month, day)
 
-    gem_id = tools.get_gem_id('4')
+    gem_id = arguments.gem_id
 
     add_info = {"gem_id": gem_id, "country": arguments.country, "date": arguments.date,
                 "period_type":arguments.periodType}
