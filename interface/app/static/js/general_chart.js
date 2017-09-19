@@ -3,5 +3,6 @@ Highcharts.chart(chart_id,{
 		title: title,
 		xAxis: xAxis,
 		yAxis: yAxis,
-		series: series
+		series: series,
+		plotOptions: plotOptions
 	});
