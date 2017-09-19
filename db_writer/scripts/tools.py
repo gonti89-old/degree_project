@@ -30,9 +30,15 @@ def csv_to_list_of_dict(input_file, add_info):
 
 
 
-def insert_many(collection_name, data, instance_type):
+def insert_many(collection_name, data, instance_type, override=False, key=False):
     client = pymongo.MongoClient()
     db = client[instance_type]
+    if override:
+        print "override"
+        if not key:
+            sys.exit("you have to defined key fields to override data")
+        print collection_name, key
+        db[collection_name].delete_many(key)
     db[collection_name].insert_many(data)
     client.close()
 
