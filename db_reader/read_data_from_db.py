@@ -48,15 +48,15 @@ class apiReports(object):
 
         db_filters = dict()
         db_filters['country'] = self.country
-        db_filters['NodeID'] = country_conf[self.country]['study_id']
+        db_filters['node_id'] = country_conf[self.country]['node_id']
         db_filters['period_type'] = self.period_type
         dates = {"date": {"$gte": self.begin_date, "$lte": self.end_date}}
         db_filters.update(dates)
         db_stats = dict()
-        db_stats['PlanID'] = True
+        db_stats['plan_id'] = True
 
         collection_name = settings['plans_type'][plans_type]['collection_name']
-        available_plans = [cursor for cursor in self.db[collection_name].find(db_filters, db_stats).distinct('PlanID')]
+        available_plans = [cursor for cursor in self.db[collection_name].find(db_filters, db_stats).distinct('plan_id')]
 
         return available_plans
 
@@ -65,16 +65,11 @@ class apiReports(object):
         data_to_process = list()
 
         for collection_name, collection_data in self.collections.iteritems():
-
-            if self.node_id:
-                collection_data['filters']['NodeID'] = self.node_id
-            else:
-                collection_data['filters']['NodeID'] = country_conf[self.country]['study_id']
-
-            if self.plan_id:
-                collection_data['filters']['PlanID'] = self.plan_id
-            else:
-                collection_data['filters']['PlanID'] = country_conf[self.country]['default_plan_id']
+            for collection_filter in collection_data.get('filters'):
+                if getattr(self, collection_filter):
+                    collection_data['filters'][collection_filter] = getattr(self, collection_filter)
+                else:
+                    collection_data['filters'][collection_filter] = country_conf[self.country][collection_filter]
 
             collection_data.update(self.date_args)
 
@@ -82,7 +77,6 @@ class apiReports(object):
             collection_data['stats'].update(id_visibility_status)
 
             filters, stats_config = tools.prepare_query_args(collection_data, self.country, self.period_type)
-
 
             for document in self.db[collection_name].find(filters, stats_config):
                 data_to_process.append(document)
@@ -96,7 +90,8 @@ class apiReports(object):
                                         self.report_name,
                                         self.end_date,
                                         self.period_type,
-                                        self.instance_type]]
+                                        self.instance_type,
+                                        self.node_id]]
 
             raise ValueError('no data for ' + " ".join(options) + " choose other options"  )
 
@@ -119,10 +114,11 @@ class apiReports(object):
         return data_to_return
 
 if __name__ == '__main__':
-    reports = apiReports(country="Croatia",
+    reports = apiReports(country="Poland",
                          report_name="basicStatsTrend",
-                         date="2016-08-31",
+                         date="2017-08-01",
                          period_type="day",
-                         instance_type="prod")
+                         instance_type="prod",
+                         node_id=2)
     print reports.create_report()
 
