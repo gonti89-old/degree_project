@@ -1,20 +1,20 @@
-- lista raportów z configu
-- czytanie nazwy raporty z url jako zmienna tylko do jednej metody w widokach 
-- funkcje raportów db reader  - na początek jako zaślepki
+- lista raportów z configu - zrobione
+- czytanie nazwy raporty z url jako zmienna tylko do jednej metody w widokach -zrobione
+- funkcje raportów db reader  - na początek jako zaślepki - chyba lepiej całe raporty robić od razu
 - widoki w interface dla nowych raportów
    - line chart - gotowy
-   - stacked area chart (target groups)
-   - bar with negative stack (strucutral data vs target groups)
+   - stacked area chart (target groups) - gotowy
+   - bar with negative stack (strucutral data vs target groups) - gotowy
    - basic column 
    - pie chart (devices usage)
    - scatter plot (difference to prev)
    - heatmap - probablity function
-- lista raportów z konfiguracji - dbreader
-- czytanie default plan_id z konfiguracji
-- przygotowanie danych randomowych  do wrzucenia do bazy - np http://www.freedatagenerator.com/csv-data-generator
-- fakowe dane do repo
+- lista raportów z konfiguracji - dbreader - zrobione
+- czytanie default plan_id z konfiguracji 
+- przygotowanie danych randomowych  do wrzucenia do bazy -  http://www.freedatagenerator.com/csv-data-generator- przygotowany własny generator
+- fakowe dane do repo - nie ma potrzeby - generator w locie wygeneruje dane i writer wrzuci do bazy
 - autoamtyczne instalowanie i stawianie całego środowiska
-  - virtual env (jak ustawić dynamicznie link do python z wirtual enva)
-  - wrzucanie danych do bazy
+  - virtual env (jak ustawić dynamicznie link do python z wirtual enva) - można go nie ustawiać tylko uruchamiać w shellu z odpalonym virtualenvem
+  - wrzucanie danych do bazy - zrobione
   - odpalanie bazy
   - uruchamianie interface
