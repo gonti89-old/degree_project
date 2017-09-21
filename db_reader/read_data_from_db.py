@@ -24,10 +24,7 @@ class apiReports(object):
         self.number_of_periods = prevPeriods[self.period_type]
 
         self.end_date = self.convert_into_datetime(date)
-        self.begin_date = dates_prod.serve_dates(self.end_date.strftime("%Y-%m-%d"),
-                                                 self.period_type,
-                                                 2,
-                                                 self.number_of_periods)[1]
+        self.begin_date = self.get_begin_date(reports_conf[self.report_name].get('onePeriod'))
         self.current_report_conf = reports_conf[self.report_name]
         self.collections = self.current_report_conf['collections']
         self.date_args = {'begin_date': self.begin_date, 'end_date': self.end_date}
@@ -35,12 +32,23 @@ class apiReports(object):
     def get_default_plan_id(self):
         return settings.get('default_plan_id')
 
+    def get_begin_date(self, one_period):
+        if not one_period:
+            begin_date = dates_prod.serve_dates(self.end_date.strftime("%Y-%m-%d"),
+                                                self.period_type,
+                                                2,
+                                                self.number_of_periods)[1]
+        else:
+            begin_date = self.end_date
+
+        print begin_date
+        return begin_date
     def get_reports_statuses(self):
         visible_reports = list()
         for name,data in reports_conf.iteritems():
             if data['isVisible']:
                 visible_reports.append(name)
-        statuses = [(n, "list-group-item-success") for n in visible_reports ]
+        statuses = [(n, "list-group-item-success") for n in visible_reports]
         return statuses
 
     def set_db_connection(self):
@@ -80,7 +88,6 @@ class apiReports(object):
                     collection_data['filters'][collection_filter] = getattr(self, collection_filter)
                 else:
                     collection_data['filters'][collection_filter] = country_conf[self.country][collection_filter]
-
             collection_data.update(self.date_args)
 
             id_visibility_status = {'_id': settings['_id']}
@@ -105,7 +112,9 @@ class apiReports(object):
             raise ValueError('no data for ' + " ".join(options) + " choose other options"  )
 
         category_stat_name = self.current_report_conf['category']
-        xAxis = {'categories': [str(x.strftime("%Y-%m-%d")) for x in data[category_stat_name]]}
+        chart_version = self.current_report_conf.get('chart_version')
+        xAxis = tools.get_xAxis_configuration(chart_version, data[category_stat_name])
+
         yAxis = {}
         title = {'text': self.current_report_conf['chart_name']}
         chart_opt = {'type': self.current_report_conf['chart_type']}
@@ -114,7 +123,7 @@ class apiReports(object):
         series = list()
         for stat in data:
             if stat != category_stat_name:
-                series.append({ 'name':stat, 'data':data[stat]})
+                series.append({'name':stat, 'data':data[stat]})
 
         data_to_return = {'xAxis': xAxis,
                           'yAxis': yAxis,
