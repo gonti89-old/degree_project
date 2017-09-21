@@ -35,13 +35,16 @@ def read_template(template_file):
     return data
 
 def generate_data_list(begin, end, step, type):
-    assert type in ['int']
+    assert type in ['int', 'string']
     if type == "int":
         if step != '':
             step = int(step)
         else:
             step = 1
         data = [x for x in range(int(begin),int(end), step)]
+    elif type == "string":
+        choices = begin
+        data = [x for x in choices.split(",")]
 
     return data
 
