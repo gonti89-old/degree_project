@@ -1,4 +1,4 @@
-on_api =['file1', 'file2']
+on_api =['file1', 'file2', 'file3']
 alternative_keys = {'file1':['plan_id', 'node_id'],
                     'file2':['plan_id', 'node_id']}
 gem_api = []
