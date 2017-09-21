@@ -87,5 +87,34 @@ reports_conf= {
 
         }
 
+    },
+    'data_comparision':{
+        'isVisible': True,
+        'onePeriod': True,
+        'collections':{
+            'file3':{
+                'stats':{
+                    'stat7': True,
+                    'stat8': True,
+                    'name':True
+                },
+                'filters':{
+                    'node_id': 'node_id',
+                    'plan_id': 'plan_id'
+                }
+            }
+        },
+        'function': 'compare',
+        'category': 'name',
+        'chart_name': 'Comparison',
+        'chart_type': 'bar',
+        'chart_version': 'negative_stack',
+        'plot_options':{
+            'series':{
+                'stacking':'normal'
+            }
+
+        }
+
     }
 }
